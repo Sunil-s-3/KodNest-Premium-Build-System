@@ -1,9 +1,11 @@
 /**
- * Job Notification Tracker — Dashboard functionality
+ * Job Notification Tracker — Dashboard functionality with match scoring
  */
 
 (function () {
   'use strict';
+
+  const STORAGE_KEY = 'jobTrackerPreferences';
 
   // Get unique values for filters
   const locations = [...new Set(JOBS_DATA.map(j => j.location))].sort();
@@ -11,14 +13,67 @@
   const experiences = [...new Set(JOBS_DATA.map(j => j.experience))].sort();
   const sources = [...new Set(JOBS_DATA.map(j => j.source))].sort();
 
-  let filteredJobs = [...JOBS_DATA];
+  let filteredJobs = [];
+  let jobsWithScores = [];
   let currentModalJob = null;
+  let userPreferences = null;
 
   // Initialize
   function init() {
+    loadPreferences();
+    calculateMatchScores();
+    renderBanner();
     renderFilters();
     renderJobs(filteredJobs);
     setupModal();
+  }
+
+  // Load preferences from localStorage
+  function loadPreferences() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        userPreferences = JSON.parse(saved);
+      }
+    } catch (e) {
+      console.error('Error loading preferences:', e);
+      userPreferences = null;
+    }
+  }
+
+  // Calculate match scores for all jobs
+  function calculateMatchScores() {
+    if (!userPreferences || !userPreferences.roleKeywords) {
+      jobsWithScores = JOBS_DATA.map(job => ({ ...job, matchScore: 0 }));
+      filteredJobs = [...JOBS_DATA];
+      return;
+    }
+
+    jobsWithScores = JOBS_DATA.map(job => {
+      const matchScore = window.MatchScoreEngine.calculate(job, userPreferences);
+      return { ...job, matchScore };
+    });
+
+    // Apply match score threshold if toggle is enabled
+    applyFilters();
+  }
+
+  // Render preferences banner
+  function renderBanner() {
+    const bannerEl = document.getElementById('jnt-preferences-banner');
+    if (!bannerEl) return;
+
+    if (!userPreferences || !userPreferences.roleKeywords) {
+      bannerEl.innerHTML = `
+        <div class="jnt-banner">
+          <p class="jnt-banner__text">Set your preferences to activate intelligent matching.</p>
+          <a href="../settings/" class="kn-btn kn-btn--secondary" style="text-decoration: none;">Go to Settings</a>
+        </div>
+      `;
+      bannerEl.style.display = 'block';
+    } else {
+      bannerEl.style.display = 'none';
+    }
   }
 
   // Render filter bar
@@ -26,7 +81,18 @@
     const filtersEl = document.getElementById('jnt-filters');
     if (!filtersEl) return;
 
+    const hasPreferences = userPreferences && userPreferences.roleKeywords;
+    const minScore = userPreferences ? (userPreferences.minMatchScore || 40) : 40;
+
     filtersEl.innerHTML = `
+      ${hasPreferences ? `
+        <div class="jnt-filters__group jnt-filters__group--toggle">
+          <label class="jnt-toggle-label">
+            <input type="checkbox" id="filter-match-only" />
+            <span>Show only jobs above my threshold</span>
+          </label>
+        </div>
+      ` : ''}
       <div class="jnt-filters__group jnt-filters__group--search">
         <label for="filter-keyword">Search</label>
         <input type="text" id="filter-keyword" class="kn-input" placeholder="Title or company..." />
@@ -64,11 +130,16 @@
         <select id="filter-sort" class="kn-select">
           <option value="latest">Latest</option>
           <option value="oldest">Oldest</option>
+          <option value="match-score">Match Score</option>
+          <option value="salary">Salary</option>
         </select>
       </div>
     `;
 
     // Attach event listeners
+    if (hasPreferences) {
+      document.getElementById('filter-match-only').addEventListener('change', applyFilters);
+    }
     document.getElementById('filter-keyword').addEventListener('input', applyFilters);
     document.getElementById('filter-location').addEventListener('change', applyFilters);
     document.getElementById('filter-mode').addEventListener('change', applyFilters);
@@ -85,8 +156,10 @@
     const experience = document.getElementById('filter-experience').value;
     const source = document.getElementById('filter-source').value;
     const sort = document.getElementById('filter-sort').value;
+    const matchOnly = userPreferences && document.getElementById('filter-match-only') && document.getElementById('filter-match-only').checked;
+    const minScore = userPreferences ? (userPreferences.minMatchScore || 40) : 0;
 
-    filteredJobs = JOBS_DATA.filter(job => {
+    filteredJobs = jobsWithScores.filter(job => {
       const matchesKeyword = !keyword || 
         job.title.toLowerCase().includes(keyword) || 
         job.company.toLowerCase().includes(keyword);
@@ -94,18 +167,35 @@
       const matchesMode = !mode || job.mode === mode;
       const matchesExperience = !experience || job.experience === experience;
       const matchesSource = !source || job.source === source;
+      const matchesScore = !matchOnly || job.matchScore >= minScore;
 
-      return matchesKeyword && matchesLocation && matchesMode && matchesExperience && matchesSource;
+      return matchesKeyword && matchesLocation && matchesMode && matchesExperience && matchesSource && matchesScore;
     });
 
     // Sort
     if (sort === 'latest') {
       filteredJobs.sort((a, b) => a.postedDaysAgo - b.postedDaysAgo);
-    } else {
+    } else if (sort === 'oldest') {
       filteredJobs.sort((a, b) => b.postedDaysAgo - a.postedDaysAgo);
+    } else if (sort === 'match-score') {
+      filteredJobs.sort((a, b) => b.matchScore - a.matchScore);
+    } else if (sort === 'salary') {
+      filteredJobs.sort((a, b) => {
+        const aNum = extractSalaryNumber(a.salaryRange);
+        const bNum = extractSalaryNumber(b.salaryRange);
+        return bNum - aNum; // Descending
+      });
     }
 
     renderJobs(filteredJobs);
+  }
+
+  // Extract numeric value from salary range for sorting
+  function extractSalaryNumber(salaryRange) {
+    if (!salaryRange) return 0;
+    // Try to extract first number (e.g., "3–5 LPA" -> 3, "₹15k–₹40k/month" -> 15)
+    const match = salaryRange.match(/(\d+)/);
+    return match ? parseInt(match[1], 10) : 0;
   }
 
   // Render jobs
@@ -114,10 +204,13 @@
     if (!container) return;
 
     if (jobs.length === 0) {
+      const hasPreferences = userPreferences && userPreferences.roleKeywords;
+      const matchOnly = userPreferences && document.getElementById('filter-match-only') && document.getElementById('filter-match-only').checked;
+      
       container.innerHTML = `
         <div class="kn-empty" style="grid-column: 1 / -1;">
-          <h2 class="kn-empty__title">No jobs found</h2>
-          <p class="kn-empty__body">Try adjusting your filters.</p>
+          <h2 class="kn-empty__title">No roles match your criteria</h2>
+          <p class="kn-empty__body">${matchOnly ? 'Adjust filters or lower threshold.' : 'Try adjusting your filters.'}</p>
         </div>
       `;
       return;
@@ -150,12 +243,20 @@
     
     const sourceClass = job.source.toLowerCase();
     const isSaved = isJobSaved(job.id);
+    const matchScore = job.matchScore || 0;
+    const badgeClass = window.MatchScoreEngine ? window.MatchScoreEngine.getBadgeClass(matchScore) : '';
+    const showMatchBadge = userPreferences && userPreferences.roleKeywords && matchScore > 0;
 
     return `
       <div class="jnt-job-card" data-job-id="${job.id}">
         <div class="jnt-job-card__header">
-          <h3 class="jnt-job-card__title">${escapeHtml(job.title)}</h3>
-          <div class="jnt-job-card__company">${escapeHtml(job.company)}</div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: var(--kn-space-2);">
+            <div style="flex: 1;">
+              <h3 class="jnt-job-card__title">${escapeHtml(job.title)}</h3>
+              <div class="jnt-job-card__company">${escapeHtml(job.company)}</div>
+            </div>
+            ${showMatchBadge ? `<span class="jnt-match-badge ${badgeClass}">${matchScore}</span>` : ''}
+          </div>
         </div>
         <div class="jnt-job-card__meta">
           <span class="jnt-job-card__meta-item">📍 ${escapeHtml(job.location)}</span>
@@ -184,11 +285,20 @@
     const modal = document.getElementById('jnt-modal');
     if (!modal) return;
 
+    const matchScore = job.matchScore || 0;
+    const showMatchScore = userPreferences && userPreferences.roleKeywords && matchScore > 0;
+    const badgeClass = window.MatchScoreEngine ? window.MatchScoreEngine.getBadgeClass(matchScore) : '';
+
     const content = modal.querySelector('.jnt-modal__content');
     content.innerHTML = `
       <button type="button" class="jnt-modal__close" aria-label="Close">✕</button>
-      <h2 class="jnt-modal__title">${escapeHtml(job.title)}</h2>
-      <div class="jnt-modal__company">${escapeHtml(job.company)}</div>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: var(--kn-space-2);">
+        <div style="flex: 1;">
+          <h2 class="jnt-modal__title">${escapeHtml(job.title)}</h2>
+          <div class="jnt-modal__company">${escapeHtml(job.company)}</div>
+        </div>
+        ${showMatchScore ? `<span class="jnt-match-badge ${badgeClass}">${matchScore}</span>` : ''}
+      </div>
       <div class="jnt-modal__section">
         <div class="jnt-modal__section-title">Location & Details</div>
         <div style="font-size: var(--kn-text-small); color: var(--kn-text-muted);">

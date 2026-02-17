@@ -26,39 +26,78 @@
   </header>
   <main class="jnt-main">
     <div class="jnt-settings">
-      <div class="kn-card">
+      <form id="jnt-preferences-form" class="kn-card">
         <h2 class="kn-card__title">Preferences</h2>
         <div class="kn-field">
           <label class="kn-label" for="pref-role">Role keywords</label>
           <input id="pref-role" class="kn-input" type="text" placeholder="e.g. Frontend, React, Product Manager" />
+          <small class="kn-muted">Comma-separated keywords</small>
         </div>
         <div class="kn-field">
           <label class="kn-label" for="pref-locations">Preferred locations</label>
-          <input id="pref-locations" class="kn-input" type="text" placeholder="e.g. San Francisco, Remote" />
+          <select id="pref-locations" class="kn-select" multiple size="5" aria-label="Preferred locations">
+            <option value="Bangalore">Bangalore</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Gurgaon">Gurgaon</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Pune">Pune</option>
+            <option value="Noida">Noida</option>
+          </select>
+          <small class="kn-muted">Hold Ctrl/Cmd to select multiple</small>
         </div>
         <div class="kn-field">
-          <label class="kn-label" for="pref-mode">Mode</label>
-          <select id="pref-mode" class="kn-select" aria-label="Work mode">
-            <option value="">Select</option>
-            <option value="remote">Remote</option>
-            <option value="hybrid">Hybrid</option>
-            <option value="onsite">Onsite</option>
-          </select>
+          <label class="kn-label">Preferred mode</label>
+          <div class="jnt-checkbox-group">
+            <label class="jnt-checkbox-label">
+              <input type="checkbox" id="pref-mode-remote" value="Remote" />
+              <span>Remote</span>
+            </label>
+            <label class="jnt-checkbox-label">
+              <input type="checkbox" id="pref-mode-hybrid" value="Hybrid" />
+              <span>Hybrid</span>
+            </label>
+            <label class="jnt-checkbox-label">
+              <input type="checkbox" id="pref-mode-onsite" value="Onsite" />
+              <span>Onsite</span>
+            </label>
+          </div>
         </div>
         <div class="kn-field">
           <label class="kn-label" for="pref-experience">Experience level</label>
           <select id="pref-experience" class="kn-select" aria-label="Experience level">
             <option value="">Select</option>
-            <option value="intern">Intern</option>
-            <option value="entry">Entry</option>
-            <option value="mid">Mid</option>
-            <option value="senior">Senior</option>
-            <option value="lead">Lead</option>
+            <option value="Fresher">Fresher</option>
+            <option value="0-1">0-1</option>
+            <option value="1-3">1-3</option>
+            <option value="3-5">3-5</option>
           </select>
         </div>
-      </div>
+        <div class="kn-field">
+          <label class="kn-label" for="pref-skills">Skills</label>
+          <input id="pref-skills" class="kn-input" type="text" placeholder="e.g. React, Python, Java" />
+          <small class="kn-muted">Comma-separated skills</small>
+        </div>
+        <div class="kn-field">
+          <label class="kn-label" for="pref-min-score">
+            Minimum match score threshold
+            <span id="pref-min-score-display" class="jnt-slider-display">40</span>
+          </label>
+          <input type="range" id="pref-min-score" class="jnt-slider" min="0" max="100" value="40" step="5" />
+          <div class="jnt-slider-labels">
+            <span>0</span>
+            <span>50</span>
+            <span>100</span>
+          </div>
+        </div>
+        <div class="kn-field">
+          <button type="submit" class="kn-btn kn-btn--primary">Save Preferences</button>
+        </div>
+      </form>
     </div>
   </main>
   <script src="../js/nav.js"></script>
+  <script src="../js/settings.js"></script>
 </body>
 </html>
