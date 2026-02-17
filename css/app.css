@@ -771,3 +771,154 @@
   padding-top: var(--kn-space-2);
   border-top: 1px solid var(--kn-border-subtle);
 }
+
+/* —— Job status (dashboard / saved) —— */
+.jnt-job-card__status {
+  margin-bottom: var(--kn-space-2);
+}
+
+.jnt-status-label {
+  font-size: var(--kn-text-meta);
+  color: var(--kn-text-muted);
+  display: block;
+  margin-bottom: var(--kn-space-1);
+}
+
+.jnt-status-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kn-space-1);
+}
+
+.jnt-status-btn {
+  padding: 4px var(--kn-space-1);
+  font-size: var(--kn-text-meta);
+  border-radius: var(--kn-radius-sm);
+  border: 1px solid var(--kn-border-subtle);
+  background: var(--kn-bg);
+  color: var(--kn-text-muted);
+  cursor: pointer;
+  transition: border-color var(--kn-transition), background-color var(--kn-transition), color var(--kn-transition);
+}
+
+.jnt-status-btn:hover {
+  border-color: var(--kn-border-strong);
+  color: var(--kn-text);
+}
+
+.jnt-status-btn--not-applied {
+  background: var(--kn-bg);
+  border-color: var(--kn-border-strong);
+  color: var(--kn-text);
+}
+
+.jnt-status-btn--applied {
+  background: #E7F3FF;
+  border-color: #0077B5;
+  color: #0077B5;
+}
+
+.jnt-status-btn--rejected {
+  background: var(--kn-accent-soft);
+  border-color: var(--kn-accent);
+  color: var(--kn-accent);
+}
+
+.jnt-status-btn--selected {
+  background: var(--kn-success-soft);
+  border-color: var(--kn-success);
+  color: var(--kn-success);
+}
+
+/* —— Toast —— */
+.jnt-toast {
+  position: fixed;
+  bottom: var(--kn-space-4);
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  padding: var(--kn-space-2) var(--kn-space-3);
+  background: var(--kn-text);
+  color: var(--kn-text-inverse);
+  font-size: var(--kn-text-small);
+  border-radius: var(--kn-radius-sm);
+  z-index: 2000;
+  opacity: 0;
+  transition: transform var(--kn-transition), opacity var(--kn-transition);
+  pointer-events: none;
+}
+
+.jnt-toast--visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* —— Digest: Recent Status Updates —— */
+.jnt-digest-updates {
+  margin-top: var(--kn-space-4);
+  padding-top: var(--kn-space-3);
+  border-top: 1px solid var(--kn-border-subtle);
+}
+
+.jnt-digest-updates__title {
+  font-family: var(--kn-font-heading);
+  font-size: var(--kn-text-h3);
+  font-weight: 600;
+  color: var(--kn-text);
+  margin: 0 0 var(--kn-space-2);
+}
+
+.jnt-digest-updates__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.jnt-digest-updates__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kn-space-1) var(--kn-space-2);
+  padding: var(--kn-space-2) 0;
+  border-bottom: 1px solid var(--kn-border-subtle);
+  font-size: var(--kn-text-small);
+}
+
+.jnt-digest-updates__item:last-child {
+  border-bottom: none;
+}
+
+.jnt-digest-updates__job {
+  font-weight: 500;
+  color: var(--kn-text);
+}
+
+.jnt-digest-updates__company {
+  color: var(--kn-text-muted);
+}
+
+.jnt-digest-updates__status {
+  padding: 2px var(--kn-space-1);
+  border-radius: var(--kn-radius-sm);
+  font-size: var(--kn-text-meta);
+  font-weight: 500;
+}
+
+.jnt-digest-updates__status--applied {
+  background: #E7F3FF;
+  color: #0077B5;
+}
+
+.jnt-digest-updates__status--rejected {
+  background: var(--kn-accent-soft);
+  color: var(--kn-accent);
+}
+
+.jnt-digest-updates__status--selected {
+  background: var(--kn-success-soft);
+  color: var(--kn-success);
+}
+
+.jnt-digest-updates__date {
+  color: var(--kn-text-subtle);
+  font-size: var(--kn-text-meta);
+}

@@ -94,6 +94,29 @@
     return window.MatchScoreEngine ? window.MatchScoreEngine.getBadgeClass(score) : '';
   }
 
+  function renderStatusUpdatesHTML() {
+    if (!window.JobStatus || !window.JobStatus.getStatusUpdates) return '';
+    var updates = window.JobStatus.getStatusUpdates();
+    if (updates.length === 0) return '';
+    var list = updates.slice(0, 20).map(function (upd) {
+      var job = typeof JOBS_DATA !== 'undefined' && JOBS_DATA.find ? JOBS_DATA.find(function (j) { return j.id === upd.jobId; }) : null;
+      var title = job ? job.title : 'Job #' + upd.jobId;
+      var company = job ? job.company : '';
+      var dateStr = upd.dateChanged ? new Date(upd.dateChanged).toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : '';
+      var statusClass = 'jnt-digest-updates__status--' + (upd.status ? upd.status.toLowerCase().replace(/\s/g, '-') : '');
+      return '<li class="jnt-digest-updates__item">' +
+        '<span class="jnt-digest-updates__job">' + escapeHtml(title) + '</span>' +
+        '<span class="jnt-digest-updates__company">' + escapeHtml(company) + '</span>' +
+        '<span class="jnt-digest-updates__status ' + statusClass + '">' + escapeHtml(upd.status || '') + '</span>' +
+        '<span class="jnt-digest-updates__date">' + escapeHtml(dateStr) + '</span>' +
+        '</li>';
+    }).join('');
+    return '<div class="jnt-digest-updates">' +
+      '<h2 class="jnt-digest-updates__title">Recent Status Updates</h2>' +
+      '<ul class="jnt-digest-updates__list">' + list + '</ul>' +
+      '</div>';
+  }
+
   function render() {
     var container = document.getElementById('jnt-digest-root');
     if (!container) return;
@@ -104,7 +127,7 @@
         '<h2 class="kn-empty__title">Set preferences to generate a personalized digest.</h2>' +
         '<div class="kn-empty__action" style="margin-top: 24px;">' +
         '<a href="../settings/" class="kn-btn kn-btn--primary" style="text-decoration: none;">Go to Settings</a>' +
-        '</div></div>';
+        '</div></div>' + renderStatusUpdatesHTML();
       return;
     }
 
@@ -117,7 +140,7 @@
         '<button type="button" class="kn-btn kn-btn--primary" id="jnt-digest-generate">Generate Today\'s 9AM Digest (Simulated)</button>' +
         '</div>' +
         '<p class="jnt-digest-note">Demo Mode: Daily 9AM trigger simulated manually.</p>' +
-        '<div id="jnt-digest-placeholder"></div>';
+        '<div id="jnt-digest-placeholder"></div>' + renderStatusUpdatesHTML();
       document.getElementById('jnt-digest-generate').onclick = generateAndRender;
       return;
     }
@@ -152,7 +175,7 @@
       '<div class="jnt-digest-actions jnt-digest-actions--secondary">' +
       '<button type="button" class="kn-btn kn-btn--secondary" id="jnt-digest-copy">Copy Digest to Clipboard</button>' +
       '<a id="jnt-digest-mailto" href="#" class="kn-btn kn-btn--secondary" style="text-decoration: none;">Create Email Draft</a>' +
-      '</div>';
+      '</div>' + renderStatusUpdatesHTML();
 
     document.getElementById('jnt-digest-regenerate').onclick = generateAndRender;
 
@@ -179,7 +202,7 @@
           '<div class="kn-empty" style="margin-top: 24px;">' +
           '<h2 class="kn-empty__title">No matching roles today</h2>' +
           '<p class="kn-empty__body">Check again tomorrow.</p>' +
-          '</div>';
+          '</div>' + renderStatusUpdatesHTML();
         document.getElementById('jnt-digest-generate').onclick = generateAndRender;
       }
       return;

@@ -42,7 +42,18 @@
         const viewBtn = card.querySelector('.jnt-job-card__view');
         const saveBtn = card.querySelector('.jnt-job-card__save');
         const applyBtn = card.querySelector('.jnt-job-card__apply');
-        
+        card.querySelectorAll('.jnt-status-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const newStatus = btn.getAttribute('data-status');
+            if (window.JobStatus) {
+              window.JobStatus.setStatus(job.id, newStatus);
+              if (['Applied', 'Rejected', 'Selected'].indexOf(newStatus) >= 0 && window.JobStatus.showToast) {
+                window.JobStatus.showToast('Status updated: ' + newStatus);
+              }
+              renderSavedJobs();
+            }
+          });
+        });
         if (viewBtn) viewBtn.addEventListener('click', () => openModal(job));
         if (saveBtn) saveBtn.addEventListener('click', () => {
           removeJob(job.id);
@@ -53,12 +64,16 @@
     });
   }
 
+  const statusOptions = ['Not Applied', 'Applied', 'Rejected', 'Selected'];
+
   function renderJobCard(job) {
     const postedText = job.postedDaysAgo === 0 ? 'Today' : 
                        job.postedDaysAgo === 1 ? '1 day ago' : 
                        `${job.postedDaysAgo} days ago`;
     
     const sourceClass = job.source.toLowerCase();
+    const status = window.JobStatus ? window.JobStatus.getStatus(job.id) : 'Not Applied';
+    const statusClass = 'jnt-status-btn--' + status.toLowerCase().replace(/\s/g, '-');
 
     return `
       <div class="jnt-job-card" data-job-id="${job.id}">
@@ -74,6 +89,12 @@
           <span class="jnt-job-card__meta-item">${escapeHtml(job.experience)}</span>
         </div>
         <div class="jnt-job-card__salary">${escapeHtml(job.salaryRange)}</div>
+        <div class="jnt-job-card__status">
+          <span class="jnt-status-label">Status:</span>
+          <div class="jnt-status-group">
+            ${statusOptions.map(s => `<button type="button" class="jnt-status-btn ${s === status ? statusClass : ''}" data-job-id="${job.id}" data-status="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}
+          </div>
+        </div>
         <div class="jnt-job-card__footer">
           <span class="jnt-job-card__badge jnt-job-card__badge--${sourceClass}">${escapeHtml(job.source)}</span>
           <span class="jnt-job-card__posted">${postedText}</span>

@@ -12,6 +12,7 @@
   const modes = [...new Set(JOBS_DATA.map(j => j.mode))].sort();
   const experiences = [...new Set(JOBS_DATA.map(j => j.experience))].sort();
   const sources = [...new Set(JOBS_DATA.map(j => j.source))].sort();
+  const statusOptions = ['Not Applied', 'Applied', 'Rejected', 'Selected'];
 
   let filteredJobs = [];
   let jobsWithScores = [];
@@ -125,6 +126,13 @@
           ${sources.map(s => `<option value="${s}">${s}</option>`).join('')}
         </select>
       </div>
+      <div class="jnt-filters__group">
+        <label for="filter-status">Status</label>
+        <select id="filter-status" class="kn-select">
+          <option value="">All</option>
+          ${statusOptions.map(s => `<option value="${s}">${s}</option>`).join('')}
+        </select>
+      </div>
       <div class="jnt-filters__group jnt-filters__group--sort">
         <label for="filter-sort">Sort</label>
         <select id="filter-sort" class="kn-select">
@@ -145,6 +153,7 @@
     document.getElementById('filter-mode').addEventListener('change', applyFilters);
     document.getElementById('filter-experience').addEventListener('change', applyFilters);
     document.getElementById('filter-source').addEventListener('change', applyFilters);
+    document.getElementById('filter-status').addEventListener('change', applyFilters);
     document.getElementById('filter-sort').addEventListener('change', applyFilters);
   }
 
@@ -156,6 +165,7 @@
     const experience = document.getElementById('filter-experience').value;
     const source = document.getElementById('filter-source').value;
     const sort = document.getElementById('filter-sort').value;
+    const statusFilter = document.getElementById('filter-status') ? document.getElementById('filter-status').value : '';
     const matchOnly = userPreferences && document.getElementById('filter-match-only') && document.getElementById('filter-match-only').checked;
     const minScore = userPreferences ? (userPreferences.minMatchScore || 40) : 0;
 
@@ -168,8 +178,10 @@
       const matchesExperience = !experience || job.experience === experience;
       const matchesSource = !source || job.source === source;
       const matchesScore = !matchOnly || job.matchScore >= minScore;
+      const jobStatus = window.JobStatus ? window.JobStatus.getStatus(job.id) : 'Not Applied';
+      const matchesStatus = !statusFilter || jobStatus === statusFilter;
 
-      return matchesKeyword && matchesLocation && matchesMode && matchesExperience && matchesSource && matchesScore;
+      return matchesKeyword && matchesLocation && matchesMode && matchesExperience && matchesSource && matchesScore && matchesStatus;
     });
 
     // Sort
@@ -225,7 +237,18 @@
         const viewBtn = card.querySelector('.jnt-job-card__view');
         const saveBtn = card.querySelector('.jnt-job-card__save');
         const applyBtn = card.querySelector('.jnt-job-card__apply');
-        
+        card.querySelectorAll('.jnt-status-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const newStatus = btn.getAttribute('data-status');
+            if (window.JobStatus) {
+              window.JobStatus.setStatus(job.id, newStatus);
+              if (['Applied', 'Rejected', 'Selected'].indexOf(newStatus) >= 0 && window.JobStatus.showToast) {
+                window.JobStatus.showToast('Status updated: ' + newStatus);
+              }
+              applyFilters();
+            }
+          });
+        });
         if (viewBtn) viewBtn.addEventListener('click', () => openModal(job));
         if (saveBtn) saveBtn.addEventListener('click', () => saveJob(job.id));
         if (applyBtn) applyBtn.addEventListener('click', () => window.open(job.applyUrl, '_blank'));
@@ -246,6 +269,8 @@
     const matchScore = job.matchScore || 0;
     const badgeClass = window.MatchScoreEngine ? window.MatchScoreEngine.getBadgeClass(matchScore) : '';
     const showMatchBadge = userPreferences && userPreferences.roleKeywords && matchScore > 0;
+    const status = window.JobStatus ? window.JobStatus.getStatus(job.id) : 'Not Applied';
+    const statusClass = 'jnt-status-btn--' + status.toLowerCase().replace(/\s/g, '-');
 
     return `
       <div class="jnt-job-card" data-job-id="${job.id}">
@@ -266,6 +291,12 @@
           <span class="jnt-job-card__meta-item">${escapeHtml(job.experience)}</span>
         </div>
         <div class="jnt-job-card__salary">${escapeHtml(job.salaryRange)}</div>
+        <div class="jnt-job-card__status">
+          <span class="jnt-status-label">Status:</span>
+          <div class="jnt-status-group">
+            ${statusOptions.map(s => `<button type="button" class="jnt-status-btn ${s === status ? statusClass : ''}" data-job-id="${job.id}" data-status="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('')}
+          </div>
+        </div>
         <div class="jnt-job-card__footer">
           <span class="jnt-job-card__badge jnt-job-card__badge--${sourceClass}">${escapeHtml(job.source)}</span>
           <span class="jnt-job-card__posted">${postedText}</span>
