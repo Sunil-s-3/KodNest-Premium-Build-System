@@ -1,0 +1,71 @@
+/**
+ * KodNest Premium Build System — Error & Empty States
+ * Calm tone: what went wrong, how to fix. Empty = next action, never dead.
+ */
+
+/* —— Error state —— */
+.kn-error {
+  background: var(--kn-warning-soft);
+  border: 1px solid var(--kn-warning-border);
+  border-radius: var(--kn-radius-sm);
+  padding: var(--kn-space-2);
+}
+
+.kn-error__title {
+  font-size: var(--kn-text-small);
+  font-weight: 600;
+  color: var(--kn-warning);
+  margin: 0 0 var(--kn-space-1);
+}
+
+.kn-error__body {
+  font-size: var(--kn-text-small);
+  color: var(--kn-text);
+  margin: 0;
+  line-height: var(--kn-line-body);
+}
+
+.kn-error__action {
+  margin-top: var(--kn-space-2);
+}
+
+/* —— Input error —— */
+.kn-input.is-error,
+.kn-textarea.is-error {
+  border-color: var(--kn-warning-border);
+}
+
+.kn-field-error {
+  font-size: var(--kn-text-meta);
+  color: var(--kn-warning);
+  margin-top: var(--kn-space-1);
+}
+
+/* —— Empty state —— */
+.kn-empty {
+  padding: var(--kn-space-4);
+  text-align: center;
+  background: var(--kn-surface);
+  border: 1px solid var(--kn-border-subtle);
+  border-radius: var(--kn-radius-md);
+}
+
+.kn-empty__title {
+  font-family: var(--kn-font-heading);
+  font-size: var(--kn-text-h3);
+  margin: 0 0 var(--kn-space-1);
+  color: var(--kn-text);
+}
+
+.kn-empty__body {
+  font-size: var(--kn-text-small);
+  color: var(--kn-text-muted);
+  margin: 0 0 var(--kn-space-3);
+  max-width: var(--kn-max-text-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.kn-empty__action {
+  margin-top: var(--kn-space-2);
+}

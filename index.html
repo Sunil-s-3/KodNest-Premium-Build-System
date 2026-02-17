@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KodNest Premium Build System</title>
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+<body class="kn-page">
+  <!-- Top Bar -->
+  <header class="kn-topbar">
+    <span class="kn-topbar__project">KodNest Premium Build System</span>
+    <span class="kn-topbar__progress">Step 1 / 4</span>
+    <span class="kn-badge kn-badge--progress kn-topbar__status">In Progress</span>
+  </header>
+
+  <!-- Context Header -->
+  <div class="kn-context-header">
+    <h1>Define today's build scope</h1>
+    <p class="kn-context-header__subtext">Choose what you want to build in this session.</p>
+  </div>
+
+  <!-- Main: Workspace + Panel -->
+  <main class="kn-main">
+    <div class="kn-workspace">
+      <div class="kn-card">
+        <h3 class="kn-card__title">Scope</h3>
+        <p>Main product interaction lives here. Clean cards, predictable components.</p>
+        <div class="kn-field" style="margin-top: 24px;">
+          <label class="kn-label" for="demo-input">Label</label>
+          <input id="demo-input" class="kn-input" type="text" placeholder="Placeholder" />
+        </div>
+      </div>
+    </div>
+    <aside class="kn-panel">
+      <div class="kn-card">
+        <h3 class="kn-panel__title">Step explanation</h3>
+        <p class="kn-panel__body">Short guidance for this step. Calm, instructional.</p>
+        <div class="kn-prompt-box">Copyable prompt text goes here. Monospace, scrollable if long.</div>
+        <div class="kn-prompt-box__actions">
+          <button type="button" class="kn-btn kn-btn--primary">Copy</button>
+          <button type="button" class="kn-btn kn-btn--secondary">Build in Lovable</button>
+          <button type="button" class="kn-btn kn-btn--secondary">It Worked</button>
+          <button type="button" class="kn-btn kn-btn--secondary">Error</button>
+          <button type="button" class="kn-btn kn-btn--secondary">Add Screenshot</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Proof Footer -->
+  <footer class="kn-proof-footer">
+    <ul class="kn-proof-footer__list">
+      <li class="kn-proof-item">
+        <input type="checkbox" class="kn-proof-item__input" id="proof-ui" aria-label="UI Built" />
+        <label class="kn-proof-item__label" for="proof-ui">UI Built</label>
+      </li>
+      <li class="kn-proof-item">
+        <input type="checkbox" class="kn-proof-item__input" id="proof-logic" aria-label="Logic Working" />
+        <label class="kn-proof-item__label" for="proof-logic">Logic Working</label>
+      </li>
+      <li class="kn-proof-item">
+        <input type="checkbox" class="kn-proof-item__input" id="proof-test" aria-label="Test Passed" />
+        <label class="kn-proof-item__label" for="proof-test">Test Passed</label>
+      </li>
+      <li class="kn-proof-item">
+        <input type="checkbox" class="kn-proof-item__input" id="proof-deploy" aria-label="Deployed" />
+        <label class="kn-proof-item__label" for="proof-deploy">Deployed</label>
+      </li>
+    </ul>
+  </footer>
+</body>
+</html>

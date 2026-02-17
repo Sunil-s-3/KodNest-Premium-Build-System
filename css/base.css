@@ -1,0 +1,65 @@
+/**
+ * KodNest Premium Build System — Base & Typography
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--kn-bg);
+  color: var(--kn-text);
+  font-family: var(--kn-font-body);
+  font-size: var(--kn-text-body);
+  line-height: var(--kn-line-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--kn-font-heading);
+  font-weight: 600;
+  margin: 0 0 var(--kn-space-2);
+  color: var(--kn-text);
+}
+
+h1 {
+  font-size: var(--kn-text-h1);
+  line-height: var(--kn-line-tight);
+  letter-spacing: 0.02em;
+}
+
+h2 {
+  font-size: var(--kn-text-h2);
+  line-height: var(--kn-line-tight);
+}
+
+h3 {
+  font-size: var(--kn-text-h3);
+  line-height: 1.4;
+}
+
+p {
+  margin: 0 0 var(--kn-space-2);
+  max-width: var(--kn-max-text-width);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+small, .kn-muted {
+  color: var(--kn-text-muted);
+  font-size: var(--kn-text-small);
+}
+
+.kn-subtle {
+  color: var(--kn-text-subtle);
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}

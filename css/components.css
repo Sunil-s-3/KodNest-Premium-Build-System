@@ -1,0 +1,210 @@
+/**
+ * KodNest Premium Build System — Components
+ * Same radius, same transition, no shadows.
+ */
+
+/* —— Buttons —— */
+.kn-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 var(--kn-space-2);
+  border-radius: var(--kn-radius-sm);
+  font-size: var(--kn-text-small);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--kn-transition), border-color var(--kn-transition), color var(--kn-transition);
+  border: 1px solid transparent;
+}
+
+.kn-btn:focus-visible {
+  outline: 2px solid var(--kn-accent-soft);
+  outline-offset: 2px;
+}
+
+.kn-btn--primary {
+  background: var(--kn-accent);
+  border-color: var(--kn-accent);
+  color: var(--kn-text-inverse);
+}
+
+.kn-btn--primary:hover:not(:disabled) {
+  background: var(--kn-accent-hover);
+  border-color: var(--kn-accent-hover);
+}
+
+.kn-btn--secondary {
+  background: transparent;
+  border-color: var(--kn-border-strong);
+  color: var(--kn-text);
+}
+
+.kn-btn--secondary:hover:not(:disabled) {
+  background: var(--kn-bg);
+  border-color: var(--kn-text-subtle);
+}
+
+.kn-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.kn-btn + .kn-btn {
+  margin-left: var(--kn-space-1);
+}
+
+/* —— Status badge (Top Bar) —— */
+.kn-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--kn-space-1) var(--kn-space-2);
+  border-radius: var(--kn-radius-pill);
+  font-size: var(--kn-text-small);
+  font-weight: 500;
+}
+
+.kn-badge--muted {
+  background: var(--kn-bg);
+  border: 1px solid var(--kn-border-subtle);
+  color: var(--kn-text-muted);
+}
+
+.kn-badge--progress {
+  background: var(--kn-accent-soft);
+  color: var(--kn-accent);
+  border: 1px solid transparent;
+}
+
+.kn-badge--shipped {
+  background: var(--kn-success-soft);
+  color: var(--kn-success);
+  border: 1px solid transparent;
+}
+
+/* —— Cards —— */
+.kn-card {
+  background: var(--kn-surface);
+  border: 1px solid var(--kn-border-subtle);
+  border-radius: var(--kn-radius-md);
+  padding: var(--kn-space-3);
+}
+
+.kn-card + .kn-card {
+  margin-top: var(--kn-space-3);
+}
+
+.kn-card__title {
+  margin-bottom: var(--kn-space-2);
+}
+
+/* —— Panel (secondary) —— */
+.kn-panel .kn-card {
+  margin-top: 0;
+}
+
+.kn-panel__title {
+  margin-bottom: var(--kn-space-1);
+}
+
+.kn-panel__body {
+  font-size: var(--kn-text-small);
+  color: var(--kn-text-muted);
+  margin-bottom: var(--kn-space-2);
+  max-width: 360px;
+}
+
+/* —— Copyable prompt box —— */
+.kn-prompt-box {
+  background: var(--kn-bg);
+  border: 1px solid var(--kn-border-subtle);
+  border-radius: var(--kn-radius-sm);
+  padding: var(--kn-space-2);
+  font-family: ui-monospace, monospace;
+  font-size: var(--kn-text-small);
+  line-height: 1.6;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: var(--kn-space-2);
+}
+
+.kn-prompt-box__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kn-space-1);
+  margin-top: var(--kn-space-2);
+}
+
+/* —— Inputs —— */
+.kn-input,
+.kn-textarea,
+.kn-select {
+  width: 100%;
+  padding: var(--kn-space-1) var(--kn-space-2);
+  background: var(--kn-surface);
+  border: 1px solid var(--kn-border-subtle);
+  border-radius: var(--kn-radius-sm);
+  color: var(--kn-text);
+  font-size: var(--kn-text-body);
+  transition: border-color var(--kn-transition), box-shadow var(--kn-transition);
+}
+
+.kn-input::placeholder,
+.kn-textarea::placeholder {
+  color: var(--kn-text-subtle);
+}
+
+.kn-input:focus,
+.kn-textarea:focus,
+.kn-select:focus {
+  outline: none;
+  border-color: var(--kn-accent-border);
+  box-shadow: 0 0 0 2px var(--kn-accent-soft);
+}
+
+.kn-input {
+  height: 40px;
+}
+
+.kn-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.kn-label {
+  display: block;
+  font-size: var(--kn-text-small);
+  color: var(--kn-text-muted);
+  margin-bottom: var(--kn-space-1);
+}
+
+.kn-field + .kn-field {
+  margin-top: var(--kn-space-3);
+}
+
+/* —— Proof checklist (footer) —— */
+.kn-proof-item {
+  display: flex;
+  align-items: center;
+  gap: var(--kn-space-1);
+}
+
+.kn-proof-item__input {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--kn-border-strong);
+  border-radius: var(--kn-radius-sm);
+  accent-color: var(--kn-accent);
+  cursor: pointer;
+}
+
+.kn-proof-item__label {
+  font-size: var(--kn-text-small);
+  color: var(--kn-text);
+}
+
+.kn-proof-item__meta {
+  font-size: var(--kn-text-meta);
+  color: var(--kn-text-muted);
+  margin-left: var(--kn-space-1);
+}

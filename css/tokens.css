@@ -1,0 +1,60 @@
+/**
+ * KodNest Premium Build System — Design Tokens
+ * Calm, intentional, coherent. No gradients, no glass, no neon.
+ */
+
+:root {
+  /* —— Color (max 4 families) —— */
+  --kn-bg: #F7F6F3;
+  --kn-surface: #FFFFFF;
+  --kn-border-subtle: #E0DED7;
+  --kn-border-strong: #C2BEB3;
+
+  --kn-text: #111111;
+  --kn-text-muted: #555555;
+  --kn-text-subtle: #777777;
+  --kn-text-inverse: #F7F6F3;
+
+  --kn-accent: #8B0000;
+  --kn-accent-soft: #F3D8D8;
+  --kn-accent-hover: #6F0000;
+  --kn-accent-border: #5F0000;
+
+  --kn-success: #2D5A3D;
+  --kn-success-soft: #D7E6DC;
+  --kn-success-border: #24462C;
+
+  --kn-warning: #7A5A1A;
+  --kn-warning-soft: #F2E1C2;
+  --kn-warning-border: #5A4114;
+
+  /* —— Typography —— */
+  --kn-font-heading: Georgia, "Times New Roman", serif;
+  --kn-font-body: "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --kn-text-h1: 2rem;      /* 32px */
+  --kn-text-h2: 1.5rem;   /* 24px */
+  --kn-text-h3: 1.25rem;  /* 20px */
+  --kn-text-body: 1rem;   /* 16px */
+  --kn-text-body-lg: 1.125rem; /* 18px */
+  --kn-text-small: 0.875rem;   /* 14px */
+  --kn-text-meta: 0.75rem;     /* 12px */
+
+  --kn-line-tight: 1.35;
+  --kn-line-body: 1.7;
+  --kn-line-relaxed: 1.8;
+  --kn-max-text-width: 720px;
+
+  /* —— Spacing (scale only) —— */
+  --kn-space-1: 8px;
+  --kn-space-2: 16px;
+  --kn-space-3: 24px;
+  --kn-space-4: 40px;
+  --kn-space-5: 64px;
+
+  /* —— Radii & motion —— */
+  --kn-radius-sm: 4px;
+  --kn-radius-md: 8px;
+  --kn-radius-pill: 9999px;
+  --kn-transition: 180ms ease-in-out;
+}
