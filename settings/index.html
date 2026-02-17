@@ -16,7 +16,6 @@
         <span class="jnt-nav__icon-close" aria-hidden="true">✕</span>
       </button>
       <ul class="jnt-nav__links" id="jnt-nav-links">
-        <li><a href="../">Home</a></li>
         <li><a href="../dashboard/">Dashboard</a></li>
         <li><a href="../saved/">Saved</a></li>
         <li><a href="../digest/">Digest</a></li>
@@ -26,9 +25,38 @@
     </div>
   </header>
   <main class="jnt-main">
-    <div class="jnt-placeholder">
-      <h1 class="jnt-placeholder__title">Settings</h1>
-      <p class="jnt-placeholder__subtext">This section will be built in the next step.</p>
+    <div class="jnt-settings">
+      <div class="kn-card">
+        <h2 class="kn-card__title">Preferences</h2>
+        <div class="kn-field">
+          <label class="kn-label" for="pref-role">Role keywords</label>
+          <input id="pref-role" class="kn-input" type="text" placeholder="e.g. Frontend, React, Product Manager" />
+        </div>
+        <div class="kn-field">
+          <label class="kn-label" for="pref-locations">Preferred locations</label>
+          <input id="pref-locations" class="kn-input" type="text" placeholder="e.g. San Francisco, Remote" />
+        </div>
+        <div class="kn-field">
+          <label class="kn-label" for="pref-mode">Mode</label>
+          <select id="pref-mode" class="kn-select" aria-label="Work mode">
+            <option value="">Select</option>
+            <option value="remote">Remote</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="onsite">Onsite</option>
+          </select>
+        </div>
+        <div class="kn-field">
+          <label class="kn-label" for="pref-experience">Experience level</label>
+          <select id="pref-experience" class="kn-select" aria-label="Experience level">
+            <option value="">Select</option>
+            <option value="intern">Intern</option>
+            <option value="entry">Entry</option>
+            <option value="mid">Mid</option>
+            <option value="senior">Senior</option>
+            <option value="lead">Lead</option>
+          </select>
+        </div>
+      </div>
     </div>
   </main>
   <script src="../js/nav.js"></script>

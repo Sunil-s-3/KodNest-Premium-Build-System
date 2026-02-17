@@ -16,7 +16,6 @@
         <span class="jnt-nav__icon-close" aria-hidden="true">✕</span>
       </button>
       <ul class="jnt-nav__links" id="jnt-nav-links">
-        <li><a href="../">Home</a></li>
         <li><a href="../dashboard/">Dashboard</a></li>
         <li><a href="../saved/" class="is-active">Saved</a></li>
         <li><a href="../digest/">Digest</a></li>
@@ -26,9 +25,12 @@
     </div>
   </header>
   <main class="jnt-main">
-    <div class="jnt-placeholder">
-      <h1 class="jnt-placeholder__title">Saved</h1>
-      <p class="jnt-placeholder__subtext">This section will be built in the next step.</p>
+    <div class="kn-empty">
+      <h2 class="kn-empty__title">No saved jobs</h2>
+      <p class="kn-empty__body">Jobs you save from the dashboard will appear here.</p>
+      <div class="kn-empty__action">
+        <a href="../dashboard/" class="kn-btn kn-btn--secondary">Go to Dashboard</a>
+      </div>
     </div>
   </main>
   <script src="../js/nav.js"></script>

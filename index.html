@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/index.css" />
   <link rel="stylesheet" href="css/app.css" />
 </head>
-<body class="jnt-app" data-route="home">
+<body class="jnt-app" data-route="landing">
   <header class="jnt-nav">
     <div class="jnt-nav__inner">
       <a href="./" class="jnt-nav__brand">Job Notification Tracker</a>
@@ -16,7 +16,6 @@
         <span class="jnt-nav__icon-close" aria-hidden="true">✕</span>
       </button>
       <ul class="jnt-nav__links" id="jnt-nav-links">
-        <li><a href="./" class="is-active">Home</a></li>
         <li><a href="dashboard/">Dashboard</a></li>
         <li><a href="saved/">Saved</a></li>
         <li><a href="digest/">Digest</a></li>
@@ -26,10 +25,13 @@
     </div>
   </header>
   <main class="jnt-main">
-    <div class="jnt-placeholder">
-      <h1 class="jnt-placeholder__title">Home</h1>
-      <p class="jnt-placeholder__subtext">This section will be built in the next step.</p>
-    </div>
+    <section class="jnt-landing">
+      <h1 class="jnt-landing__headline">Stop Missing The Right Jobs.</h1>
+      <p class="jnt-landing__subtext">Precision-matched job discovery delivered daily at 9AM.</p>
+      <div class="jnt-landing__cta">
+        <a href="settings/" class="kn-btn kn-btn--primary">Start Tracking</a>
+      </div>
+    </section>
   </main>
   <script src="js/nav.js"></script>
 </body>
