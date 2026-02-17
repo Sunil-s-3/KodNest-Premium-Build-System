@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Checklist — Job Notification Tracker</title>
+  <link rel="stylesheet" href="../../css/index.css" />
+  <link rel="stylesheet" href="../../css/app.css" />
+</head>
+<body class="jnt-app" data-route="test">
+  <header class="jnt-nav">
+    <div class="jnt-nav__inner">
+      <a href="../../" class="jnt-nav__brand">Job Notification Tracker</a>
+      <button type="button" class="jnt-nav__toggle" id="jnt-nav-toggle" aria-expanded="false" aria-controls="jnt-nav-links" aria-label="Toggle menu">
+        <span class="jnt-nav__icon-open" aria-hidden="true">☰</span>
+        <span class="jnt-nav__icon-close" aria-hidden="true">✕</span>
+      </button>
+      <ul class="jnt-nav__links" id="jnt-nav-links">
+        <li><a href="../../dashboard/">Dashboard</a></li>
+        <li><a href="../../saved/">Saved</a></li>
+        <li><a href="../../digest/">Digest</a></li>
+        <li><a href="../../settings/">Settings</a></li>
+        <li><a href="../../proof/">Proof</a></li>
+        <li><a href="../../jt/07-test/" class="is-active">Test</a></li>
+        <li><a href="../../jt/08-ship/" id="jnt-nav-ship">Ship</a></li>
+      </ul>
+    </div>
+  </header>
+  <main class="jnt-main">
+    <div class="jnt-test">
+      <p class="jnt-test__summary" id="jnt-test-summary">Tests Passed: 0 / 10</p>
+      <p class="jnt-test__warning" id="jnt-test-warning" style="display: none;">Resolve all issues before shipping.</p>
+      <div class="jnt-test__actions">
+        <button type="button" class="kn-btn kn-btn--secondary" id="jnt-test-reset">Reset Test Status</button>
+      </div>
+      <ul class="jnt-test-list" id="jnt-test-list"></ul>
+    </div>
+  </main>
+  <script src="../../js/checklist.js"></script>
+  <script src="../../js/nav.js"></script>
+  <script src="../../js/jt-test.js"></script>
+</body>
+</html>

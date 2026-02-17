@@ -922,3 +922,118 @@
   color: var(--kn-text-subtle);
   font-size: var(--kn-text-meta);
 }
+
+/* —— Test checklist (/jt/07-test) —— */
+.jnt-test {
+  max-width: var(--kn-max-text-width);
+}
+
+.jnt-test__summary {
+  font-family: var(--kn-font-heading);
+  font-size: var(--kn-text-h2);
+  font-weight: 600;
+  color: var(--kn-text);
+  margin: 0 0 var(--kn-space-1);
+}
+
+.jnt-test__warning {
+  font-size: var(--kn-text-small);
+  color: var(--kn-warning);
+  margin: 0 0 var(--kn-space-3);
+}
+
+.jnt-test__actions {
+  margin-bottom: var(--kn-space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kn-space-2);
+}
+
+.jnt-test-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.jnt-test-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--kn-space-2);
+  padding: var(--kn-space-2) 0;
+  border-bottom: 1px solid var(--kn-border-subtle);
+}
+
+.jnt-test-item:last-child {
+  border-bottom: none;
+}
+
+.jnt-test-item__input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--kn-accent);
+  cursor: pointer;
+}
+
+.jnt-test-item__label {
+  flex: 1;
+  font-size: var(--kn-text-body);
+  color: var(--kn-text);
+  cursor: pointer;
+}
+
+.jnt-test-item__tip {
+  font-size: var(--kn-text-meta);
+  color: var(--kn-text-subtle);
+  margin-top: var(--kn-space-1);
+}
+
+.jnt-test-item__tip-trigger {
+  margin-left: var(--kn-space-1);
+  color: var(--kn-text-muted);
+  cursor: help;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--kn-text-subtle);
+}
+
+/* —— Ship lock (/jt/08-ship) —— */
+.jnt-ship-lock {
+  background: var(--kn-surface);
+  border: 1px solid var(--kn-border-subtle);
+  border-radius: var(--kn-radius-md);
+  padding: var(--kn-space-4);
+  max-width: 560px;
+  text-align: center;
+}
+
+.jnt-ship-lock__title {
+  font-family: var(--kn-font-heading);
+  font-size: var(--kn-text-h2);
+  font-weight: 600;
+  color: var(--kn-text);
+  margin: 0 0 var(--kn-space-2);
+}
+
+.jnt-ship-lock__body {
+  font-size: var(--kn-text-body);
+  color: var(--kn-text-muted);
+  margin: 0 0 var(--kn-space-3);
+  line-height: var(--kn-line-body);
+}
+
+.jnt-ship-unlocked {
+  background: var(--kn-success-soft);
+  border: 1px solid var(--kn-success-border);
+  border-radius: var(--kn-radius-md);
+  padding: var(--kn-space-4);
+  max-width: 560px;
+}
+
+.jnt-ship-unlocked__title {
+  font-family: var(--kn-font-heading);
+  font-size: var(--kn-text-h2);
+  font-weight: 600;
+  color: var(--kn-success);
+  margin: 0 0 var(--kn-space-2);
+}
